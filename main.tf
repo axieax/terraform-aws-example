@@ -7,7 +7,8 @@ terraform {
       version = "~> 3.27"
     }
   }
-  required_version = ">= 0.14.9"
+  // canva tf version
+  required_version = "0.14.11"
 }
 
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs
