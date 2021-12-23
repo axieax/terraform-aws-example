@@ -6,13 +6,11 @@ resource "aws_vpc" "lab_vpc" {
   }
 }
 
-# Configure subnets
+# Configure subnets and route table associations
 resource "aws_subnet" "public_subnet_1" {
   vpc_id            = aws_vpc.lab_vpc.id
   cidr_block        = "10.0.0.0/24"
   availability_zone = var.AWS_AZ_1
-  # availability_zone = var.AWS_REGION + "a"
-  # availability_zone = "${var.AWS_REGION}a"
   tags = {
     Name = "public_subnet_1"
   }

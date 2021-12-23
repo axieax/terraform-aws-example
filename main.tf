@@ -1,4 +1,5 @@
 # TODO: src code for sample web app (with RDS)
+
 terraform {
   required_providers {
     aws = {
@@ -6,13 +7,12 @@ terraform {
       version = "~> 3.27"
     }
   }
-  required_version = ">= 0.14.9"
+  required_version = "0.14.11"
 }
 
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 provider "aws" {
-  # target Canva AWS burner profile from ~/.aws/credentials
-  # ALT: set AWS_PROFILE to the name of the profile
+  # ALT: set AWS_PROFILE to the name of the profile from ~/.aws/credentials
   # profile = "burner"
   region = var.AWS_REGION
 }
@@ -21,14 +21,17 @@ provider "aws" {
 resource "aws_instance" "bot" {
   # EC2 configuration
   # NOTE: ami region specific
-  ami           = "ami-0bd2230cfb28832f7"
-  instance_type = "t2.micro"
+  ami                         = "ami-0bd2230cfb28832f7"
+  instance_type               = "t2.micro"
+  associate_public_ip_address = true
 
   # setup permissions
-  # VPC?
   subnet_id = aws_subnet.public_subnet_1.id
   # security groups
-  security_groups = [aws_security_group.ec2_security_group.id]
+  security_groups = [
+    aws_security_group.ec2_web_security.id,
+    # aws_security_group.ec2_ssh_security.id
+  ]
 
   tags = {
     Name = "bot"
